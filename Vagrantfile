@@ -11,7 +11,19 @@ Vagrant::Config.run do |config|
       gt_config.vm.forward_port 81, 8887
       gt_config.vm.forward_port 3306, 8889
       gt_config.vm.host_name = "sdphp"
-      gt_config.vm.provision :shell, :inline => "mkdir -p /srv/grouptopics/sdphp-repo/config /srv/grouptopics/sdphp-repo/log /srv/grouptopics/sdphp-repo/web "
+      gt_config.vm.provision :shell, :inline => "mkdir -p /srv/grouptopics/sdphp-repo/config /srv/grouptopics/sdphp-repo/log /srv/grouptopics/sdphp-repo/web"
       gt_config.vm.share_folder("servers", "/srv/grouptopics", "./servers", :extra => 'dmode=777,fmode=777')
+
+      gt_config.vm.provision :chef_solo do |chef|
+          chef.cookbooks_path = "my-recipes/cookbooks"
+          #chef.roles_path = "my-recipes/roles"
+          #chef.data_bags_path = "my-recipes/data_bags"
+          chef.add_recipe "apache2"
+          chef.add_recipe "mysql"
+          #chef.add_role "web"
+
+          # You may also specify custom JSON attributes:
+          chef.json = { :mysql_password => "foo" }
+      end
   end
 end
