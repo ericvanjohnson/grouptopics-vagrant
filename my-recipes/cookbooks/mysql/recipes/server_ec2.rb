@@ -18,29 +18,27 @@
 #
 
 
-if (node.attribute?('ec2') && ! FileTest.directory?(node['mysql']['ec2_path']))
+if (node[:ec2] && ! FileTest.directory?(node[:mysql][:ec2_path]))
 
   service "mysql" do
     action :stop
   end
 
   execute "install-mysql" do
-    command "mv #{node['mysql']['data_dir']} #{node['mysql']['ec2_path']}"
-    not_if do FileTest.directory?(node['mysql']['ec2_path']) end
+    command "mv #{node[:mysql][:datadir]} #{node[:mysql][:ec2_path]}"
+    not_if do FileTest.directory?(node[:mysql][:ec2_path]) end
   end
 
-  [node['mysql']['ec2_path'], node['mysql']['data_dir']].each do |dir|
-    directory dir do
-      owner "mysql"
-      group "mysql"
-    end
+  directory node[:mysql][:ec2_path] do
+    owner "mysql"
+    group "mysql"
   end
 
-  mount node['mysql']['data_dir'] do
-    device node['mysql']['ec2_path']
+  mount node[:mysql][:datadir] do
+    device node[:mysql][:ec2_path]
     fstype "none"
     options "bind,rw"
-    action [:mount, :enable]
+    action :mount
   end
 
   service "mysql" do
