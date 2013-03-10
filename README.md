@@ -1,6 +1,6 @@
 # SDPHP Grouptopics w/ Vagrant
 
-A basic Ubuntu 12.04 Vagrant setup for [SDPHP Grouptopics](https://github.com/sdphp/grouptopics.org) and PHP 5.4.
+A basic Ubuntu 10.04 Vagrant setup for [SDPHP Grouptopics](https://github.com/sdphp/grouptopics.org) and PHP 5.4.
 
 ## Requirements
 
@@ -33,7 +33,7 @@ Vagrant is [very well documented](http://vagrantup.com/v1/docs/index.html) but h
 
 ##### Virtual Machine Specifications #####
 
-* OS     - Ubuntu 12.04
+* OS     - Ubuntu 10.04
 * Apache - 2.2.22
 * PHP    - 5.4.9
 * MySQL  - 5.5.28
