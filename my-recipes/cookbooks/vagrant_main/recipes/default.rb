@@ -1,12 +1,20 @@
+# Some neat package 
+%w{ debconf git-core htop screen curl }.each do |a_package|
+  package a_package
+end
+
+# Create Grouptopics Database
+execute "clone-groutopics" do
+    command "git clone git://github.com/sdphp/grouptopics.org.git /vagrant/site/grouptopics/"
+    action :run
+    ignore_failure true
+end
+
 include_recipe "apt"
 include_recipe "apache2"
 include_recipe "mysql::server"
 include_recipe "php::php5"
-
-# Some neat package 
-%w{ debconf git-core htop screen }.each do |a_package|
-  package a_package
-end
+include_recipe "composer"
 
 # get phpmyadmin conf
 cookbook_file "/tmp/phpmyadmin.deb.conf" do
@@ -19,7 +27,7 @@ package "phpmyadmin"
 
 s = "sdphp-grouptopics"
 site = {
-  :name => s, 
+  :name => s,
   :host => "www.#{s}.com", 
   :aliases => ["#{s}.com", "dev.#{s}-static.com"]
 }
@@ -29,7 +37,7 @@ web_app site[:name] do
   template "sites.conf.erb"
   server_name site[:host]
   server_aliases site[:aliases]
-  docroot "/vagrant/public/"
+  docroot "/vagrant/site/grouptopics/public/"
 end  
 
 # Add site info in /etc/hosts
@@ -55,5 +63,11 @@ execute "add-groutopics-db" do
     command "/usr/bin/mysql -u root -p#{node[:mysql][:server_root_password]} -e \"" +
         "CREATE DATABASE grouptopics ;\""
     action :run
+    ignore_failure true
 end
 
+execute "apache-cleanup" do
+    command "a2dissite default && /etc/init.d/apache2 reload"
+    action :run
+    ignore_failure true
+end

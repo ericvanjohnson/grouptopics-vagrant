@@ -30,7 +30,7 @@ Vagrant is [very well documented](http://vagrantup.com/v1/docs/index.html) but h
 
 * OS     - Ubuntu 10.04
 * Apache - 2.2.22
-* PHP    - 5.4.9
+* PHP    - 5.3.2
 * MySQL  - 5.5.28
 
 Phpmyadmin is available [http://localhost:8080/phpmyadmin/](http://localhost:8080/phpmyadmin/). User `sdphp`, Password `sdphp`
