@@ -19,6 +19,7 @@ include_recipe "php::module_curl"
 include_recipe "php::module_mysql"
 include_recipe "apache2::mod_php5"
 include_recipe "apache2::mod_rewrite"
+include_recipe "composer"
 
 # get phpmyadmin conf
 cookbook_file "/tmp/phpmyadmin.deb.conf" do
@@ -29,11 +30,11 @@ bash "debconf_for_phpmyadmin" do
 end
 package "phpmyadmin"
 
-s = "dev-site"
+s = "sdphp-grouptopics"
 site = {
-  :name => s, 
-  :host => "www.#{s}.com", 
-  :aliases => ["#{s}.com", "dev.#{s}-static.com"]
+  :name => s,
+  :host => "#{s}", 
+  :aliases => ["#{s}.com", "dev.#{s}-static.com", "www.#{s}.com"]
 }
 
 # Configure the development site
@@ -41,21 +42,13 @@ web_app site[:name] do
   template "sites.conf.erb"
   server_name site[:host]
   server_aliases site[:aliases]
-  docroot "/vagrant/public/"
+  docroot "/vagrant/site/grouptopics/public/"
 end  
 
 # Add site info in /etc/hosts
 bash "info_in_etc_hosts" do
   code "echo 127.0.0.1 #{site[:host]} #{site[:aliases]} >> /etc/hosts"
 end
-
-# Retrieve webgrind for xdebug trace analysis
-#subversion "Webgrind" do
-#  repository "http://webgrind.googlecode.com/svn/trunk/"
-#  revision "HEAD"
-#  destination "/var/www/webgrind"
-#  action :sync
-#end
 
 # Add an admin user to mysql
 execute "add-admin-user" do
