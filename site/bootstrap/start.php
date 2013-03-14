@@ -26,7 +26,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-	'local' => array('dev.gt', 'dev.gt.com', 'dev.gt-static.com','localhost' ),
+	'local' => array('gt', 'dev.gt', 'dev.gt.com', 'dev.gt-static.com','localhost' ),
 
 ));
 
