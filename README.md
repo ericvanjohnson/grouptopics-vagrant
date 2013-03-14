@@ -1,6 +1,6 @@
-# SDPHP Grouptopics w/ Vagrant
+# Grouptopics w/ Vagrant
 
-A basic Ubuntu 10.04 Vagrant setup for [SDPHP Grouptopics](https://github.com/sdphp/grouptopics.org) and PHP 5.4.
+A basic Ubuntu 10.04 Vagrant setup for [Grouptopics](https://github.com/sdphp/grouptopics.org) and PHP 5.4.
 
 ## Requirements
 
@@ -8,13 +8,31 @@ A basic Ubuntu 10.04 Vagrant setup for [SDPHP Grouptopics](https://github.com/sd
 * Vagrant - Tool for working with virtualbox images [Vagrant Home](https://www.vagrantup.com), click on 'download now link'
 * Git - Source Control Management [Downloads](http://git-scm.com/downloads)
 
-## Setup
+## Quick Start - Using Vagrant
 
-* Clone this repository 
-* run `vagrant up` inside the newly created directory
-* (the first time you run vagrant it will need to fetch the virtual box image which is ~300mb so depending on your download speed this could take some time)
-* Vagrant will then use puppet to provision the base virtual box with our LAMP stack (this could take a few minutes) also note that composer will need to fetch all of the packages defined in the app's composer.json which will add some more time to the first provisioning run
-* You can verify that everything was successful by opening http://localhost:8888 in a browser
+You can set up a development virtual machine running Grouptopics by following these simple instructions.
+
+1. Install requirements. (Note: these are not required by joind.in itself, but are required for this quick start guide.)
+   - VirtualBox (https://www.virtualbox.org/) (versions 4.0 and 4.1 are currently supported)
+   - Ruby (http://www.ruby-lang.org/)
+   - Vagrant (http://vagrantup.com/)
+
+2. Clone repository to any location and fetch required submodules (containing Puppet manifests).
+
+        git clone https://github.com/sdphp/grouptopics.org
+        cd grouptopics
+
+3. Start the process by running Vagrant.
+
+        vagrant up
+
+4. Add hostname to /etc/hosts.
+
+        echo "127.0.0.1 dev.gt " | sudo tee -a /etc/hosts
+
+5. Browse to the newly provisioned development copy of joind.in.
+
+        open http://dev.gt:8080
 
 ### Using Vagrant
 
@@ -33,4 +51,4 @@ Vagrant is [very well documented](http://vagrantup.com/v1/docs/index.html) but h
 * PHP    - 5.3.2
 * MySQL  - 5.5.28
 
-Phpmyadmin is available [http://localhost:8080/phpmyadmin/](http://localhost:8080/phpmyadmin/). User `sdphp`, Password `sdphp`
+Phpmyadmin is available [http://dev.gt:8080/phpmyadmin/](http://dev.gt:8080/phpmyadmin/). User `root`, Password `root`

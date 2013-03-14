@@ -3,13 +3,6 @@
   package a_package
 end
 
-# Create Grouptopics Database
-execute "clone-groutopics" do
-    command "git clone git://github.com/sdphp/grouptopics.org.git /vagrant/site/grouptopics/"
-    action :run
-    ignore_failure true
-end
-
 include_recipe "apt"
 include_recipe "apache2"
 include_recipe "mysql::server"
@@ -30,11 +23,11 @@ bash "debconf_for_phpmyadmin" do
 end
 package "phpmyadmin"
 
-s = "sdphp-grouptopics"
+s = "gt"
 site = {
   :name => s,
-  :host => "#{s}", 
-  :aliases => ["#{s}.com", "dev.#{s}-static.com", "www.#{s}.com"]
+  :host => "dev.#{s}", 
+  :aliases => ["dev.#{s}.com", "dev.#{s}-static.com"]
 }
 
 # Configure the development site
@@ -42,12 +35,12 @@ web_app site[:name] do
   template "sites.conf.erb"
   server_name site[:host]
   server_aliases site[:aliases]
-  docroot "/vagrant/site/grouptopics/public/"
+  docroot "/vagrant/site//public/"
 end  
 
 # Add site info in /etc/hosts
 bash "info_in_etc_hosts" do
-  code "echo 127.0.0.1 #{site[:host]} #{site[:aliases]} >> /etc/hosts"
+  code "echo 127.0.0.1 #{site[:host]} >> /etc/hosts"
 end
 
 # Add an admin user to mysql
